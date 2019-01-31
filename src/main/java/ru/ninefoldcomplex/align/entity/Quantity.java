@@ -1,22 +1,35 @@
 package ru.ninefoldcomplex.align.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 public class Quantity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "QUANTITY_ID")
     private long quantityId;
+    public long getQuantityId() {
+        return quantityId;
+    }
 
+    @Column(name = "PRODUCT_ID")
     private long productId;
+    public long getProductId() {
+        return productId;
+    }
 
+    @Column(name = "QUANTITY")
     private Integer quantity;
+    public Integer getQuantity() {
+        return quantity;
+    }
 
-    private final LocalDateTime timestamp;
+    @Column(name = "QUANTITY_TIMESTAMP")
+    private final LocalDateTime quantityTimestamp;
+    public LocalDateTime getQuantityTimestamp() {
+        return quantityTimestamp;
+    }
 
     public Quantity(long productId, Integer quantity) {
         this();
@@ -25,6 +38,6 @@ public class Quantity {
     }
 
     public Quantity() {
-        this.timestamp = LocalDateTime.now();
+        this.quantityTimestamp = LocalDateTime.now();
     }
 }
