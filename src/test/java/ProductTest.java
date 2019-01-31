@@ -1,14 +1,15 @@
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
+import org.springframework.transaction.annotation.Transactional;
 import ru.ninefoldcomplex.align.config.JpaConfig;
-import ru.ninefoldcomplex.align.entity.Theme;
-import ru.ninefoldcomplex.align.entity.repository.UserRepository;
+import ru.ninefoldcomplex.align.entity.Product;
+import ru.ninefoldcomplex.align.entity.repository.ProductRepository;
 
 import javax.annotation.Resource;
-import javax.transaction.Transactional;
 
 import static org.junit.Assert.assertEquals;
 
@@ -17,17 +18,18 @@ import static org.junit.Assert.assertEquals;
         classes = { JpaConfig.class },
         loader = AnnotationConfigContextLoader.class)
 @Transactional
-public class ThemeTest {
+@DirtiesContext
+public class ProductTest {
 
     @Resource
-    private UserRepository userRepository;
+    private ProductRepository productRepository;
 
     @Test
     public void givenUser_whenSave_thenGetOk() {
-        Theme theme = new Theme(1, "john");
-        userRepository.save(theme);
+        Product product = new Product(1, "john");
+        productRepository.save(product);
 
-        Theme theme2 = userRepository.findOne(1L);
-        assertEquals("john", theme2.getTheme());
+        Product product2 = productRepository.findOne(1L);
+        assertEquals("john", product2.getName());
     }
 }
