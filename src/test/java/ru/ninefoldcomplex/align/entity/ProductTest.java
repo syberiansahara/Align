@@ -40,9 +40,12 @@ public class ProductTest {
     }
 
     @Test
-    public void insertProduct() {
-        Product product2 = productRepository.findOne(1L);
-        Brand brand = brandRepository.findOne(1L);
-        assertEquals("Watch", product2.getProductName());
+    public void checkProduct() {
+        assertEquals("Watch", productRepository.findOne(1L).getProductName());
+    }
+
+    @Test
+    public void checkBrand() {
+        assertEquals("ninefold", productRepository.findOne(1L).getBrand().getBrandName());
     }
 }
