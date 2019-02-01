@@ -31,9 +31,9 @@ public class Price {
         return priceTimestamp;
     }
 
-    public Price(long productId, Integer price) {
+    public Price(Product product, Integer price) {
         this();
-        this.productId = productId;
+        this.productId = product.getProductId();
         this.price = price;
     }
 

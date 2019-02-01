@@ -11,8 +11,8 @@ public class Product {
         return productId;
     }
 
-    private String productName;
     @Column(name = "PRODUCT_NAME")
+    private String productName;
     public String getProductName() {
         return productName;
     }
@@ -26,7 +26,7 @@ public class Product {
     }
 
     @OneToOne
-    @JoinColumn(name = "BRAND_ID", referencedColumnName = "BRAND_ID", nullable = false)
+    @JoinColumn(name = "BRAND_ID", nullable = false)
     private Brand brand;
     public Brand getBrand() {
         return brand;
@@ -35,39 +35,25 @@ public class Product {
         this.brand = brand;
     }
 
-    @Column(name = "QUANTITY_ID")
-    private long quantityId;
-    public long getQuantityId() {
-        return quantityId;
+    @OneToOne
+    @JoinColumn(name = "QUANTITY_ID")
+    private Quantity quantity;
+    public Quantity getQuantity() {
+        return quantity;
     }
-    public void setQuantityId(long quantityId) {
-        this.quantityId = quantityId;
-    }
-
-    @Column(name = "PRICE_ID")
-    private long priceId;
-    public long getPriceId() {
-        return priceId;
-    }
-    public void setPriceId(long priceId) {
-        this.priceId = priceId;
+    public void setQuantity(Quantity quantity) {
+        this.quantity = quantity;
     }
 
-
-//
-//    @OneToOne
-//    @JoinColumn(name = "QUANTITY_ID", referencedColumnName = "QUANTITY_ID", insertable = false, updatable = false)
-//    private Quantity quantity;
-//    public Quantity getQuantity() {
-//        return quantity;
-//    }
-//
-//    @OneToOne
-//    @JoinColumn(name = "PRICE_ID", referencedColumnName = "PRICE_ID", insertable = false, updatable = false)
-//    private Price price;
-//    public Price getPrice() {
-//        return price;
-//    }
+    @OneToOne
+    @JoinColumn(name = "PRICE_ID")
+    private Price price;
+    public Price getPrice() {
+        return price;
+    }
+    public void setPrice(Price price) {
+        this.price = price;
+    }
 
     private Product() {
     }

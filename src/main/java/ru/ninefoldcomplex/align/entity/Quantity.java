@@ -31,9 +31,9 @@ public class Quantity {
         return quantityTimestamp;
     }
 
-    public Quantity(long productId, Integer quantity) {
+    public Quantity(Product product, Integer quantity) {
         this();
-        this.productId = productId;
+        this.productId = product.getProductId();
         this.quantity = quantity;
     }
 

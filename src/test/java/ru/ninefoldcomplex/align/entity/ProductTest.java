@@ -10,7 +10,9 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.transaction.annotation.Transactional;
 import ru.ninefoldcomplex.align.config.JpaConfig;
 import ru.ninefoldcomplex.align.entity.repository.BrandRepository;
+import ru.ninefoldcomplex.align.entity.repository.PriceRepository;
 import ru.ninefoldcomplex.align.entity.repository.ProductRepository;
+import ru.ninefoldcomplex.align.entity.repository.QuantityRepository;
 
 import javax.annotation.Resource;
 
@@ -28,6 +30,10 @@ public class ProductTest {
     private ProductRepository productRepository;
     @Resource
     private BrandRepository brandRepository;
+    @Resource
+    private PriceRepository priceRepository;
+    @Resource
+    private QuantityRepository quantityRepository;
 
     @Before
     public void setUp() {
@@ -36,6 +42,16 @@ public class ProductTest {
 
         Product product = new Product(1, "Watch");
         product.setBrand(brand);
+        productRepository.save(product);
+
+        Price price = new Price(product, 123);
+        product.setPrice(price);
+        priceRepository.save(price);
+
+        Quantity quantity = new Quantity(product, 55);
+        product.setQuantity(quantity);
+        quantityRepository.save(quantity);
+
         productRepository.save(product);
     }
 
@@ -47,7 +63,6 @@ public class ProductTest {
     @Test
     public void checkBrand() {
         final Product product = productRepository.findOne(1L);
-        final Brand brand = brandRepository.findAll().get(0);
         assertEquals("ninefold", product.getBrand().getBrandName());
     }
 }
