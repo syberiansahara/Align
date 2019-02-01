@@ -35,7 +35,7 @@ public class ProductTest {
         brandRepository.save(brand);
 
         Product product = new Product(1, "Watch");
-        product.setBrandId(brand.getBrandId());
+        product.setBrand(brand);
         productRepository.save(product);
     }
 
@@ -46,6 +46,8 @@ public class ProductTest {
 
     @Test
     public void checkBrand() {
-        assertEquals("ninefold", productRepository.findOne(1L).getBrand().getBrandName());
+        final Product product = productRepository.findOne(1L);
+        final Brand brand = brandRepository.findAll().get(0);
+        assertEquals("ninefold", product.getBrand().getBrandName());
     }
 }

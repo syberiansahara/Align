@@ -25,8 +25,7 @@ public class Brand {
         this.brandName = brandName;
     }
 
-    @OneToOne
-    @JoinColumn(name = "BRAND_ID", referencedColumnName = "BRAND_ID", nullable = false, insertable = false, updatable = false)
+    @OneToOne(mappedBy = "brand", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Product product;
     public Product getProduct() {
         return product;
