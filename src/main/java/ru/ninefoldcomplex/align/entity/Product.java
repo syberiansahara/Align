@@ -52,16 +52,19 @@ public class Product {
         this.priceId = priceId;
     }
 
-    @OneToOne
-    @JoinColumn(name = "BRAND_ID", referencedColumnName = "BRAND_ID", insertable = false, updatable = false)
     private Brand brand;
+    @OneToOne
+    @JoinColumn(name = "BRAND_ID", referencedColumnName = "BRAND_ID", nullable = false, insertable = false, updatable = false)
     public Brand getBrand() {
         return brand;
     }
+    public void setBrand(Brand brand) {
+        this.brand = brand;
+    }
 
+    private Quantity quantity;
     @OneToOne
     @JoinColumn(name = "QUANTITY_ID", referencedColumnName = "QUANTITY_ID", insertable = false, updatable = false)
-    private Quantity quantity;
     public Quantity getQuantity() {
         return quantity;
     }
@@ -73,6 +76,6 @@ public class Product {
         return price;
     }
 
-    public Product() {
+    private Product() {
     }
 }

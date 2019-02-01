@@ -25,6 +25,13 @@ public class Brand {
         this.brandName = brandName;
     }
 
-    public Brand() {
+    @OneToOne
+    @JoinColumn(name = "BRAND_ID", referencedColumnName = "BRAND_ID", nullable = false, insertable = false, updatable = false)
+    private Product product;
+    public Product getProduct() {
+        return product;
+    }
+
+    private Brand() {
     }
 }

@@ -37,7 +37,7 @@ public class Price {
         this.price = price;
     }
 
-    public Price() {
+    private Price() {
         this.priceTimestamp = LocalDateTime.now();
     }
 }

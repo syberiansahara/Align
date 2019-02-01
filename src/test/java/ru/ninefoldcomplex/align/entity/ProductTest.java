@@ -9,6 +9,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.transaction.annotation.Transactional;
 import ru.ninefoldcomplex.align.config.JpaConfig;
+import ru.ninefoldcomplex.align.entity.repository.BrandRepository;
 import ru.ninefoldcomplex.align.entity.repository.ProductRepository;
 
 import javax.annotation.Resource;
@@ -25,16 +26,23 @@ public class ProductTest {
 
     @Resource
     private ProductRepository productRepository;
+    @Resource
+    private BrandRepository brandRepository;
 
     @Before
     public void setUp() {
+        Brand brand = new Brand("ninefold");
+        brandRepository.save(brand);
+
         Product product = new Product(1, "Watch");
+        product.setBrandId(brand.getBrandId());
         productRepository.save(product);
     }
 
     @Test
     public void insertProduct() {
         Product product2 = productRepository.findOne(1L);
+        Brand brand = brandRepository.findOne(1L);
         assertEquals("Watch", product2.getProductName());
     }
 }
