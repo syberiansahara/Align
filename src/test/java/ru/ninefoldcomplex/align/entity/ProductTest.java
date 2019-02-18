@@ -25,7 +25,6 @@ import static org.junit.Assert.assertEquals;
 @Transactional
 @DirtiesContext
 public class ProductTest {
-
     @Resource
     private ProductRepository productRepository;
     @Resource
@@ -35,34 +34,38 @@ public class ProductTest {
     @Resource
     private QuantityRepository quantityRepository;
 
+    final String BRAND_ONE = "ninefold";
+
+    final String PRODUCT_NAME_ONE = "Watch";
+    final long PRODUCT_ID_ONE = 1L;
+
     @Before
     public void setUp() {
-        Brand brand = new Brand("ninefold");
+        Brand brand = new Brand(BRAND_ONE);
         brandRepository.save(brand);
 
-        Product product = new Product(1, "Watch");
-        product.setBrand(brand);
+        Product product = new Product(1, PRODUCT_NAME_ONE, brand);
         productRepository.save(product);
 
         Price price = new Price(product, 123);
-        product.setPrice(price);
         priceRepository.save(price);
 
         Quantity quantity = new Quantity(product, 55);
-        product.setQuantity(quantity);
         quantityRepository.save(quantity);
 
+        product.setPrice(price);
+        product.setQuantity(quantity);
         productRepository.save(product);
     }
 
     @Test
     public void checkProduct() {
-        assertEquals("Watch", productRepository.findOne(1L).getProductName());
+        assertEquals(PRODUCT_NAME_ONE, productRepository.findOne(PRODUCT_ID_ONE).getProductName());
     }
 
     @Test
     public void checkBrand() {
-        final Product product = productRepository.findOne(1L);
-        assertEquals("ninefold", product.getBrand().getBrandName());
+        final Product product = productRepository.findOne(PRODUCT_ID_ONE);
+        assertEquals(BRAND_ONE, product.getBrand().getBrandName());
     }
 }

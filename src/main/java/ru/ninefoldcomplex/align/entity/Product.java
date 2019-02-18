@@ -20,18 +20,16 @@ public class Product {
         this.productName = productName;
     }
 
-    public Product(long productId, String productName) {
-        this.productId = productId;
-        this.productName = productName;
-    }
-
     @OneToOne
     @JoinColumn(name = "BRAND_ID", nullable = false)
     private Brand brand;
     public Brand getBrand() {
         return brand;
     }
-    public void setBrand(Brand brand) {
+
+    public Product(long productId, String productName, Brand brand) {
+        this.productId = productId;
+        this.productName = productName;
         this.brand = brand;
     }
 

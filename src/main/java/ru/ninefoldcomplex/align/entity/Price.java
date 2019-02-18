@@ -31,6 +31,12 @@ public class Price {
         return priceTimestamp;
     }
 
+    public Price(long productId, Integer price, LocalDateTime priceTimestamp) {
+        this.productId = productId;
+        this.price = price;
+        this.priceTimestamp = priceTimestamp;
+    }
+
     public Price(Product product, Integer price) {
         this();
         this.productId = product.getProductId();
