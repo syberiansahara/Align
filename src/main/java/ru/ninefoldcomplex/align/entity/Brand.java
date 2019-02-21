@@ -1,6 +1,8 @@
 package ru.ninefoldcomplex.align.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Brand {
@@ -25,10 +27,10 @@ public class Brand {
         this.brandName = brandName;
     }
 
-    @OneToOne(mappedBy = "brand", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Product product;
-    public Product getProduct() {
-        return product;
+    @OneToMany(mappedBy = "brand", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Product> products = new ArrayList<>();
+    public List<Product> getProducts() {
+        return products;
     }
 
     private Brand() {

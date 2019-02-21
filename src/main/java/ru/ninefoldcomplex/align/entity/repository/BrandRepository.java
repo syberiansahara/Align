@@ -5,4 +5,5 @@ import ru.ninefoldcomplex.align.entity.Brand;
 import ru.ninefoldcomplex.align.entity.Product;
 
 public interface BrandRepository extends JpaRepository<Brand, Long> {
+    Brand findByBrandName(String brandName);
 }

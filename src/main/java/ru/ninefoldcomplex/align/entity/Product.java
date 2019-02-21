@@ -20,7 +20,7 @@ public class Product {
         this.productName = productName;
     }
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "BRAND_ID", nullable = false)
     private Brand brand;
     public Brand getBrand() {

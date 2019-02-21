@@ -24,7 +24,7 @@ import static org.junit.Assert.assertEquals;
         loader = AnnotationConfigContextLoader.class)
 @Transactional
 @DirtiesContext
-public class ProductTest {
+public class DatabaseTest {
     @Resource
     private ProductRepository productRepository;
     @Resource
@@ -67,5 +67,11 @@ public class ProductTest {
     public void checkBrand() {
         final Product product = productRepository.findOne(PRODUCT_ID_ONE);
         assertEquals(BRAND_ONE, product.getBrand().getBrandName());
+    }
+
+    @Test
+    public void checkBrandsProducts() {
+        final Brand brand = brandRepository.findByBrandName(BRAND_ONE);
+        assertEquals(1, brand.getProducts().size());
     }
 }
