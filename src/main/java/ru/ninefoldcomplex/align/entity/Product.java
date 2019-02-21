@@ -33,7 +33,7 @@ public class Product {
         this.brand = brand;
     }
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "QUANTITY_ID")
     private Quantity quantity;
     public Quantity getQuantity() {
@@ -43,7 +43,7 @@ public class Product {
         this.quantity = quantity;
     }
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "PRICE_ID")
     private Price price;
     public Price getPrice() {

@@ -18,6 +18,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(
@@ -40,12 +41,15 @@ public class RepositoryTest {
     final String PRODUCT_NAME_ONE = "Watch";
     final long PRODUCT_ID_ONE = 1L;
 
+    final String PRODUCT_NAME_TWO = "Car";
+    final long PRODUCT_ID_TWO = 2L;
+
     @Before
     public void setUp() {
         Brand brand = new Brand(BRAND_NAME_ONE);
         brandRepository.save(brand);
 
-        Product product = new Product(1, PRODUCT_NAME_ONE, brand);
+        Product product = new Product(PRODUCT_ID_ONE, PRODUCT_NAME_ONE, brand);
         productRepository.save(product);
 
         Price price = new Price(product, 123);
@@ -72,7 +76,7 @@ public class RepositoryTest {
 
     @Test
     public void test_findByProductName() {
-        final Product product = productRepository.findByProductName(PRODUCT_NAME_ONE);
+        final Product product = productRepository.findByProductName(PRODUCT_NAME_ONE).get(0);
         assertEquals(PRODUCT_ID_ONE, product.getProductId());
     }
 
@@ -93,5 +97,19 @@ public class RepositoryTest {
     public void test_findByBrand_BrandName() {
         List<Product> products = productRepository.findByBrand_BrandName(BRAND_NAME_ONE);
         assertEquals(1, products.size());
+    }
+
+    @Test
+    public void testBrandAndProductCascade() {
+        final Brand brand = brandRepository.findByBrandName(BRAND_NAME_ONE);
+        Product product = new Product(PRODUCT_ID_TWO, PRODUCT_NAME_TWO, brand);
+        product.setPrice(new Price(product, 555));
+        product.setQuantity(new Quantity(product, 11));
+        brand.getProducts().add(product);
+        brandRepository.save(brand);
+
+        assertNotNull(productRepository.findOne(PRODUCT_ID_TWO));
+        assertEquals(priceRepository.findByProductId(PRODUCT_ID_TWO).size(), 1);
+        assertEquals(quantityRepository.findByProductId(PRODUCT_ID_TWO).size(), 1);
     }
 }
