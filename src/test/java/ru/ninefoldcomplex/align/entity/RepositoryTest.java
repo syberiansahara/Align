@@ -15,14 +15,13 @@ import ru.ninefoldcomplex.align.entity.repository.ProductRepository;
 import ru.ninefoldcomplex.align.entity.repository.QuantityRepository;
 
 import javax.annotation.Resource;
-
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(
-        classes = { JpaConfig.class },
+        classes = {JpaConfig.class},
         loader = AnnotationConfigContextLoader.class)
 @Transactional
 @DirtiesContext
