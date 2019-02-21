@@ -16,6 +16,8 @@ import ru.ninefoldcomplex.align.entity.repository.QuantityRepository;
 
 import javax.annotation.Resource;
 
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -59,12 +61,12 @@ public class DatabaseTest {
     }
 
     @Test
-    public void checkProduct() {
+    public void test_productName() {
         assertEquals(PRODUCT_NAME_ONE, productRepository.findOne(PRODUCT_ID_ONE).getProductName());
     }
 
     @Test
-    public void checkBrand() {
+    public void test_productBrand() {
         final Product product = productRepository.findOne(PRODUCT_ID_ONE);
         assertEquals(BRAND_ONE, product.getBrand().getBrandName());
     }
@@ -75,9 +77,10 @@ public class DatabaseTest {
         assertEquals(PRODUCT_ID_ONE, product.getProductId());
     }
 
-//    @Test
-//    public void checkBrandsProducts() {
-//        final Brand brand = brandRepository.findByBrandName(BRAND_ONE);
-//        assertEquals(1, brand.getProducts().size());
-//    }
+    @Test
+    public void test_findByBrand() {
+        final Brand brand = brandRepository.findByBrandName(BRAND_ONE);
+        List<Product> products = productRepository.findByBrand(brand);
+        assertEquals(1, products.size());
+    }
 }
