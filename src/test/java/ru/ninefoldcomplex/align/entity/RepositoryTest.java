@@ -112,4 +112,24 @@ public class RepositoryTest {
         assertEquals(priceRepository.findByProductId(PRODUCT_ID_TWO).size(), 1);
         assertEquals(quantityRepository.findByProductId(PRODUCT_ID_TWO).size(), 1);
     }
+
+    @Test
+    public void testProductPriceChange() {
+        final Brand brand = brandRepository.findByBrandName(BRAND_NAME_ONE);
+        Product product = new Product(PRODUCT_ID_TWO, PRODUCT_NAME_TWO, brand);
+
+        final Price oldPrice = new Price(product, 777);
+        product.setPrice(oldPrice);
+        productRepository.save(product);
+        assertEquals(product.getPrice(), oldPrice);
+
+        final Price newPrice = new Price(product, 888);
+        product.setPrice(newPrice);
+        productRepository.save(product);
+        assertEquals(product.getPrice(), newPrice);
+
+        assertEquals(priceRepository.findByProductId(PRODUCT_ID_TWO).size(), 2);
+        assertEquals(productRepository.findOne(PRODUCT_ID_TWO).getPrice(),
+                priceRepository.findTopByProductIdOrderByPriceTimestampDesc(PRODUCT_ID_TWO));
+    }
 }

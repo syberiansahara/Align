@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface PriceRepository extends JpaRepository<Price, Long> {
     List<Price> findByProductId(long productId);
+    Price findTopByProductIdOrderByPriceTimestampDesc(long productId);
 }

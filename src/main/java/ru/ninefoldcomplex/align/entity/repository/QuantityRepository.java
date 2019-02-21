@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface QuantityRepository extends JpaRepository<Quantity, Long> {
     List<Quantity> findByProductId(long productId);
+    Quantity findTopByProductIdOrderByQuantityTimestampDesc(long productId);
 }
