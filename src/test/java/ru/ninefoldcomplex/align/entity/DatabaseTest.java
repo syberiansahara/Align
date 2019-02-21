@@ -70,8 +70,14 @@ public class DatabaseTest {
     }
 
     @Test
-    public void checkBrandsProducts() {
-        final Brand brand = brandRepository.findByBrandName(BRAND_ONE);
-        assertEquals(1, brand.getProducts().size());
+    public void test_findByProductName() {
+        final Product product = productRepository.findByProductName(PRODUCT_NAME_ONE);
+        assertEquals(PRODUCT_ID_ONE, product.getProductId());
     }
+
+//    @Test
+//    public void checkBrandsProducts() {
+//        final Brand brand = brandRepository.findByBrandName(BRAND_ONE);
+//        assertEquals(1, brand.getProducts().size());
+//    }
 }
