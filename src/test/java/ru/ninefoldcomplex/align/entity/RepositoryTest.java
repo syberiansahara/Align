@@ -36,14 +36,14 @@ public class RepositoryTest {
     @Resource
     private QuantityRepository quantityRepository;
 
-    final String BRAND_ONE = "ninefold";
+    final String BRAND_NAME_ONE = "ninefold";
 
     final String PRODUCT_NAME_ONE = "Watch";
     final long PRODUCT_ID_ONE = 1L;
 
     @Before
     public void setUp() {
-        Brand brand = new Brand(BRAND_ONE);
+        Brand brand = new Brand(BRAND_NAME_ONE);
         brandRepository.save(brand);
 
         Product product = new Product(1, PRODUCT_NAME_ONE, brand);
@@ -68,7 +68,7 @@ public class RepositoryTest {
     @Test
     public void test_productBrand() {
         final Product product = productRepository.findOne(PRODUCT_ID_ONE);
-        assertEquals(BRAND_ONE, product.getBrand().getBrandName());
+        assertEquals(BRAND_NAME_ONE, product.getBrand().getBrandName());
     }
 
     @Test
@@ -85,8 +85,14 @@ public class RepositoryTest {
 
     @Test
     public void test_findByBrand() {
-        final Brand brand = brandRepository.findByBrandName(BRAND_ONE);
+        final Brand brand = brandRepository.findByBrandName(BRAND_NAME_ONE);
         List<Product> products = productRepository.findByBrand(brand);
+        assertEquals(1, products.size());
+    }
+
+    @Test
+    public void test_findByBrand_BrandName() {
+        List<Product> products = productRepository.findByBrand_BrandName(BRAND_NAME_ONE);
         assertEquals(1, products.size());
     }
 }
