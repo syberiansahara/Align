@@ -26,4 +26,25 @@ public class DAO implements IDAO {
         final int LEFTOVER_MARGIN = 5;
         return productRepository.findByQuantity_QuantityLessThan(LEFTOVER_MARGIN);
     }
+
+    @Override
+    public void addProduct(String productName, String brandName) {
+//        Product product = new Product(productName, brandName);
+//        productRepository.save(product);
+    }
+
+    @Override
+    public void addProduct(String productName, String brandName, Integer quantity, Integer price) {
+
+    }
+
+    @Override
+    public void addProductWithQuantity(String productName, String brandName, Integer quantity) {
+
+    }
+
+    @Override
+    public void addProductWithPrice(String productName, String brandName, Integer price) {
+
+    }
 }

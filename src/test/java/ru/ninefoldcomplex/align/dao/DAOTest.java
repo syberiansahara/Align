@@ -29,7 +29,7 @@ public class DAOTest {
     private RepositoryTest repositoryTest;
 
     @Autowired
-    private IDAO iDao;
+    private IDAO dao;
 
     @Before
     public void setUp() {
@@ -38,6 +38,6 @@ public class DAOTest {
 
     @Test
     public void getLeftovers() {
-        assertEquals(iDao.getLeftovers().size(), 0);
+        assertEquals(dao.getLeftovers().size(), 0);
     }
 }

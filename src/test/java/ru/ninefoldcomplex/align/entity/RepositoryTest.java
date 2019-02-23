@@ -109,7 +109,7 @@ public class RepositoryTest {
         product.setQuantity(new Quantity(product, 11));
         brandOne.getProducts().add(product);
         brandRepository.save(brandOne);
-        PRODUCT_ID_TWO = productRepository.findByProductNameAndBrand_BrandName(PRODUCT_NAME_TWO, BRAND_NAME_ONE).getProductId();
+        PRODUCT_ID_TWO = product.getProductId();
 
         assertNotNull(productRepository.findOne(PRODUCT_ID_TWO));
         assertEquals(priceRepository.findByProductId(PRODUCT_ID_TWO).size(), 1);
@@ -124,7 +124,7 @@ public class RepositoryTest {
         product.setPrice(new Price(product, 777));
         productRepository.save(product);
 
-        PRODUCT_ID_TWO = productRepository.findByProductNameAndBrand_BrandName(PRODUCT_NAME_TWO, BRAND_NAME_ONE).getProductId();
+        PRODUCT_ID_TWO = product.getProductId();
 
         Thread.sleep(500);
         product.setPrice(new Price(product, 888));
@@ -139,7 +139,7 @@ public class RepositoryTest {
     public void test_deleteProduct() {
         Product product = new Product(PRODUCT_NAME_TWO, brandOne);
         productRepository.save(product);
-        PRODUCT_ID_TWO = productRepository.findByProductNameAndBrand_BrandName(PRODUCT_NAME_TWO, BRAND_NAME_ONE).getProductId();
+        PRODUCT_ID_TWO = product.getProductId();
 
         product = productRepository.findOne(PRODUCT_ID_TWO);
         assertNotNull(product);
@@ -157,7 +157,6 @@ public class RepositoryTest {
         Product product = new Product(PRODUCT_NAME_TWO, brandOne);
         product.setQuantity(new Quantity(product, 4));
         productRepository.save(product);
-        PRODUCT_ID_TWO = productRepository.findByProductNameAndBrand_BrandName(PRODUCT_NAME_TWO, BRAND_NAME_ONE).getProductId();
 
         products = productRepository.findByQuantity_QuantityLessThan(5);
         assertEquals(products.size(), 1);
