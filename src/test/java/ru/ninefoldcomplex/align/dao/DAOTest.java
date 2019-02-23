@@ -36,8 +36,12 @@ public class DAOTest {
         repositoryTest.setUp();
     }
 
+    final String BRAND_NAME_ONE = "ninefold";
+
     @Test
-    public void getLeftovers() {
+    public void test_getLeftovers() {
         assertEquals(dao.getLeftovers().size(), 0);
+        dao.addProduct("Wow", BRAND_NAME_ONE, 4, 88);
+        assertEquals(dao.getLeftovers().size(), 1);
     }
 }

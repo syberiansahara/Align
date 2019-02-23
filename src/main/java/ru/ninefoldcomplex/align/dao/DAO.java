@@ -52,13 +52,14 @@ public class DAO implements IDAO {
     @Override
     public Product updateProduct(Long productId, Integer quantity, Integer price) {
         final Product product = productRepository.getOne(productId);
-        updateProduct(product, quantity, price);
-        return product;
+        return updateProduct(product, quantity, price);
     }
 
-    public void updateProduct(Product product, Integer quantity, Integer price) {
-        if (quantity != null) quantityRepository.save(new Quantity(product, quantity));
-        if (price != null) priceRepository.save(new Price(product, quantity));
+    public Product updateProduct(Product product, Integer quantity, Integer price) {
+        if (quantity != null) product.setQuantity(new Quantity(product, quantity));
+        if (price != null) product.setPrice(new Price(product, quantity));
+        productRepository.save(product);
+        return product;
     }
 
     @Override

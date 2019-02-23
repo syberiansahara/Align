@@ -98,7 +98,7 @@ public class RepositoryTest {
     }
 
     @Test
-    public void testBrandAndProductCascade() {
+    public void test_BrandAndProductCascade() {
         Product product = new Product(PRODUCT_NAME_TWO, brandOne);
         productRepository.save(product);
 
@@ -114,7 +114,7 @@ public class RepositoryTest {
     }
 
     @Test
-    public void testProductPriceChange() throws InterruptedException {
+    public void test_ProductPriceChange() throws InterruptedException {
         Product product = new Product(PRODUCT_NAME_TWO, brandOne);
         productRepository.save(product);
         PRODUCT_ID_TWO = product.getProductId();
