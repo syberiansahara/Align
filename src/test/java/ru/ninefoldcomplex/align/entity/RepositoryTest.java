@@ -38,6 +38,7 @@ public class RepositoryTest {
     private QuantityRepository quantityRepository;
 
     final String BRAND_NAME_ONE = "ninefold";
+    final Brand brandOne = new Brand(BRAND_NAME_ONE);
 
     final String PRODUCT_NAME_ONE = "Watch";
     final long PRODUCT_ID_ONE = 1L;
@@ -47,10 +48,9 @@ public class RepositoryTest {
 
     @Before
     public void setUp() {
-        Brand brand = new Brand(BRAND_NAME_ONE);
-        brandRepository.save(brand);
+        brandRepository.save(brandOne);
 
-        Product product = new Product(PRODUCT_ID_ONE, PRODUCT_NAME_ONE, brand);
+        Product product = new Product(PRODUCT_ID_ONE, PRODUCT_NAME_ONE, brandOne);
         productRepository.save(product);
 
         Price price = new Price(product, 123);
@@ -89,8 +89,7 @@ public class RepositoryTest {
 
     @Test
     public void test_findByBrand() {
-        final Brand brand = brandRepository.findByBrandName(BRAND_NAME_ONE);
-        List<Product> products = productRepository.findByBrand(brand);
+        List<Product> products = productRepository.findByBrand(brandOne);
         assertEquals(1, products.size());
     }
 
@@ -102,12 +101,11 @@ public class RepositoryTest {
 
     @Test
     public void testBrandAndProductCascade() {
-        final Brand brand = brandRepository.findByBrandName(BRAND_NAME_ONE);
-        Product product = new Product(PRODUCT_ID_TWO, PRODUCT_NAME_TWO, brand);
+        Product product = new Product(PRODUCT_ID_TWO, PRODUCT_NAME_TWO, brandOne);
         product.setPrice(new Price(product, 555));
         product.setQuantity(new Quantity(product, 11));
-        brand.getProducts().add(product);
-        brandRepository.save(brand);
+        brandOne.getProducts().add(product);
+        brandRepository.save(brandOne);
 
         assertNotNull(productRepository.findOne(PRODUCT_ID_TWO));
         assertEquals(priceRepository.findByProductId(PRODUCT_ID_TWO).size(), 1);
@@ -115,19 +113,15 @@ public class RepositoryTest {
     }
 
     @Test
-    public void testProductPriceChange() {
-        final Brand brand = brandRepository.findByBrandName(BRAND_NAME_ONE);
-        Product product = new Product(PRODUCT_ID_TWO, PRODUCT_NAME_TWO, brand);
+    public void testProductPriceChange() throws InterruptedException {
+        Product product = new Product(PRODUCT_ID_TWO, PRODUCT_NAME_TWO, brandOne);
 
-        final Price oldPrice = new Price(product, 777);
-        product.setPrice(oldPrice);
+        product.setPrice(new Price(product, 777));
         productRepository.save(product);
-        assertEquals(product.getPrice(), oldPrice);
 
-        final Price newPrice = new Price(product, 888);
-        product.setPrice(newPrice);
+        Thread.sleep(500);
+        product.setPrice(new Price(product, 888));
         productRepository.save(product);
-        assertEquals(product.getPrice(), newPrice);
 
         assertEquals(priceRepository.findByProductId(PRODUCT_ID_TWO).size(), 2);
         assertEquals(productRepository.findOne(PRODUCT_ID_TWO).getPrice(),
@@ -136,8 +130,7 @@ public class RepositoryTest {
 
     @Test
     public void test_deleteProduct() {
-        final Brand brand = brandRepository.findByBrandName(BRAND_NAME_ONE);
-        Product product = new Product(PRODUCT_ID_TWO, PRODUCT_NAME_TWO, brand);
+        Product product = new Product(PRODUCT_ID_TWO, PRODUCT_NAME_TWO, brandOne);
         productRepository.save(product);
 
         product = productRepository.findOne(PRODUCT_ID_TWO);
@@ -147,4 +140,18 @@ public class RepositoryTest {
         product = productRepository.findOne(PRODUCT_ID_TWO);
         assertNull(product);
     }
+
+//    @Test
+//    public void test_findByQuantity_QuantityLessThan5() {
+//        final Brand brand = brandRepository.findByBrandName(BRAND_NAME_ONE);
+//        Product product = new Product(PRODUCT_ID_TWO, PRODUCT_NAME_TWO, brand);
+//        productRepository.save(product);
+//
+//        product = productRepository.findOne(PRODUCT_ID_TWO);
+//        assertNotNull(product);
+//
+//        productRepository.delete(PRODUCT_ID_TWO);
+//        product = productRepository.findOne(PRODUCT_ID_TWO);
+//        assertNull(product);
+//    }
 }
