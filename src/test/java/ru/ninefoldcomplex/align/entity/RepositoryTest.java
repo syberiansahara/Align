@@ -53,17 +53,13 @@ public class RepositoryTest {
 
         Product product = new Product(PRODUCT_NAME_ONE, brandOne);
         productRepository.save(product);
-
         PRODUCT_ID_ONE = productRepository.findByProductNameAndBrand_BrandName(PRODUCT_NAME_ONE, BRAND_NAME_ONE).getProductId();
+
         Price price = new Price(product, 123);
         priceRepository.save(price);
 
         Quantity quantity = new Quantity(product, 55);
         quantityRepository.save(quantity);
-
-        product.setPrice(price);
-        product.setQuantity(quantity);
-        productRepository.save(product);
     }
 
     @Test
@@ -121,11 +117,10 @@ public class RepositoryTest {
     public void testProductPriceChange() throws InterruptedException {
         Product product = new Product(PRODUCT_NAME_TWO, brandOne);
         productRepository.save(product);
+        PRODUCT_ID_TWO = product.getProductId();
 
         product.setPrice(new Price(product, 777));
         productRepository.save(product);
-
-        PRODUCT_ID_TWO = product.getProductId();
 
         Thread.sleep(500);
         product.setPrice(new Price(product, 888));
