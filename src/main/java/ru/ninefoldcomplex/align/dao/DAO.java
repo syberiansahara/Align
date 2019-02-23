@@ -10,6 +10,7 @@ import ru.ninefoldcomplex.align.entity.repository.PriceRepository;
 import ru.ninefoldcomplex.align.entity.repository.ProductRepository;
 import ru.ninefoldcomplex.align.entity.repository.QuantityRepository;
 import ru.ninefoldcomplex.align.utils.exceptions.BrandNotFoundException;
+import ru.ninefoldcomplex.align.utils.exceptions.ProductAlreadyExistsException;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -32,30 +33,36 @@ public class DAO implements IDAO {
     }
 
     @Override
-    public Product addProduct(String productName, String brandName) {
-        Brand brand = brandRepository.findByBrandName(brandName);
-        if (brand == null) throw new BrandNotFoundException();
-        Product product = new Product(productName, brand);
-        productRepository.save(product);
-        return product;
+    public Long getProductId(String productName, String brandName) {
+        final Product product = productRepository.findByProductNameAndBrand_BrandName(productName, brandName);
+        return (product != null) ? product.getProductId() : null;
     }
 
     @Override
     public Product addProduct(String productName, String brandName, Integer quantity, Integer price) {
-        Product product = addProduct(productName, brandName);
-        product.setQuantity(new Quantity(product, quantity));
-        product.setPrice(new Price(product, price));
+        Brand brand = brandRepository.findByBrandName(brandName);
+        if (brand == null) throw new BrandNotFoundException();
+        if (getProductId(productName, brandName) != null) throw new ProductAlreadyExistsException();
+        Product product = new Product(productName, brand);
         productRepository.save(product);
+        updateProduct(product, quantity, price);
         return product;
     }
 
-//    @Override
-//    public Product addProductWithQuantity(String productName, String brandName, Integer quantity) {
-//
-//    }
-//
-//    @Override
-//    public Product addProductWithPrice(String productName, String brandName, Integer price) {
-//
-//    }
+    @Override
+    public Product updateProduct(Long productId, Integer quantity, Integer price) {
+        final Product product = productRepository.getOne(productId);
+        updateProduct(product, quantity, price);
+        return product;
+    }
+
+    public void updateProduct(Product product, Integer quantity, Integer price) {
+        if (quantity != null) quantityRepository.save(new Quantity(product, quantity));
+        if (price != null) priceRepository.save(new Price(product, quantity));
+    }
+
+    @Override
+    public void removeProduct(Long productId) {
+        productRepository.delete(productId);
+    }
 }

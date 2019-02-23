@@ -6,8 +6,8 @@ import java.util.List;
 
 public interface IDAO {
     List<Product> getLeftovers();
-    Product addProduct(String productName, String brandName);
+    Long getProductId(String productName, String brandName);
     Product addProduct(String productName, String brandName, Integer quantity, Integer price);
-//    Product addProductWithQuantity(String productName, String brandName, Integer quantity);
-//    Product addProductWithPrice(String productName, String brandName, Integer price);
+    Product updateProduct(Long productId, Integer quantity, Integer price);
+    void removeProduct(Long productId);
 }
