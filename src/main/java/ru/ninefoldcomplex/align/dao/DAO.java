@@ -6,11 +6,10 @@ import ru.ninefoldcomplex.align.entity.Price;
 import ru.ninefoldcomplex.align.entity.Product;
 import ru.ninefoldcomplex.align.entity.Quantity;
 import ru.ninefoldcomplex.align.entity.repository.BrandRepository;
-import ru.ninefoldcomplex.align.entity.repository.PriceRepository;
 import ru.ninefoldcomplex.align.entity.repository.ProductRepository;
-import ru.ninefoldcomplex.align.entity.repository.QuantityRepository;
 import ru.ninefoldcomplex.align.utils.exceptions.BrandNotFoundException;
 import ru.ninefoldcomplex.align.utils.exceptions.ProductAlreadyExistsException;
+import ru.ninefoldcomplex.align.utils.exceptions.ProductNotFoundException;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -21,10 +20,6 @@ public class DAO implements IDAO {
     private ProductRepository productRepository;
     @Resource
     private BrandRepository brandRepository;
-    @Resource
-    private PriceRepository priceRepository;
-    @Resource
-    private QuantityRepository quantityRepository;
 
     @Override
     public List<Product> getLeftovers() {
@@ -45,17 +40,17 @@ public class DAO implements IDAO {
         if (getProductId(productName, brandName) != null) throw new ProductAlreadyExistsException();
         Product product = new Product(productName, brand);
         productRepository.save(product);
-        updateProduct(product, quantity, price);
-        return product;
+        return updateProduct(product, quantity, price);
     }
 
     @Override
     public Product updateProduct(Long productId, Integer quantity, Integer price) {
-        final Product product = productRepository.getOne(productId);
+        final Product product = productRepository.findOne(productId);
+        if (product == null) throw new ProductNotFoundException();
         return updateProduct(product, quantity, price);
     }
 
-    public Product updateProduct(Product product, Integer quantity, Integer price) {
+    private Product updateProduct(Product product, Integer quantity, Integer price) {
         if (quantity != null) product.setQuantity(new Quantity(product, quantity));
         if (price != null) product.setPrice(new Price(product, quantity));
         productRepository.save(product);
@@ -64,6 +59,8 @@ public class DAO implements IDAO {
 
     @Override
     public void removeProduct(Long productId) {
+        final Product product = productRepository.findOne(productId);
+        if (product == null) throw new ProductNotFoundException();
         productRepository.delete(productId);
     }
 }
