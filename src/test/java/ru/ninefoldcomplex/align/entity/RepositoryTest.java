@@ -141,17 +141,16 @@ public class RepositoryTest {
         assertNull(product);
     }
 
-//    @Test
-//    public void test_findByQuantity_QuantityLessThan5() {
-//        final Brand brand = brandRepository.findByBrandName(BRAND_NAME_ONE);
-//        Product product = new Product(PRODUCT_ID_TWO, PRODUCT_NAME_TWO, brand);
-//        productRepository.save(product);
-//
-//        product = productRepository.findOne(PRODUCT_ID_TWO);
-//        assertNotNull(product);
-//
-//        productRepository.delete(PRODUCT_ID_TWO);
-//        product = productRepository.findOne(PRODUCT_ID_TWO);
-//        assertNull(product);
-//    }
+    @Test
+    public void test_findByQuantity_QuantityLessThan() {
+        List<Product> products = productRepository.findByQuantity_QuantityLessThan(5);
+        assertEquals(products.size(), 0);
+
+        Product product = new Product(PRODUCT_ID_TWO, PRODUCT_NAME_TWO, brandOne);
+        product.setQuantity(new Quantity(product, 4));
+        productRepository.save(product);
+
+        products = productRepository.findByQuantity_QuantityLessThan(5);
+        assertEquals(products.size(), 1);
+    }
 }
