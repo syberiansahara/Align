@@ -47,7 +47,6 @@ public class JpaConfig {
     @Bean
     public SessionFactory sessionFactory() {
         return new LocalSessionFactoryBuilder(dataSource())
-                .addAnnotatedClasses(org.springframework.ui.context.Theme.class)
                 .buildSessionFactory();
     }
 

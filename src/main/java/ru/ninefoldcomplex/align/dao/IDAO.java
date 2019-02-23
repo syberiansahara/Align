@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface IDAO {
     List<Product> getLeftovers();
+//    void addProduct();
 }
