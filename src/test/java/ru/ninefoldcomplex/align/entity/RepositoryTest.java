@@ -3,6 +3,7 @@ package ru.ninefoldcomplex.align.entity;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -160,5 +161,12 @@ public class RepositoryTest {
 
         products = productRepository.findByQuantity_QuantityLessThan(5);
         assertEquals(products.size(), 1);
+    }
+
+    @Test(expected = DataIntegrityViolationException.class)
+    public void test_uniqueConstraint() {
+        Product product = new Product(PRODUCT_NAME_ONE, brandOne);
+        productRepository.save(product);
+        productRepository.findAll();
     }
 }

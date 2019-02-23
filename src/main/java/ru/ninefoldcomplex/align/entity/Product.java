@@ -3,6 +3,7 @@ package ru.ninefoldcomplex.align.entity;
 import javax.persistence.*;
 
 @Entity
+@Table(uniqueConstraints=@UniqueConstraint(columnNames = {"PRODUCT_NAME", "BRAND_ID"}))
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
