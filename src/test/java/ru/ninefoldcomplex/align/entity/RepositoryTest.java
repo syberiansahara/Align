@@ -17,6 +17,7 @@ import ru.ninefoldcomplex.align.entity.repository.QuantityRepository;
 import javax.annotation.Resource;
 import java.util.List;
 
+import static junit.framework.TestCase.assertNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -131,5 +132,19 @@ public class RepositoryTest {
         assertEquals(priceRepository.findByProductId(PRODUCT_ID_TWO).size(), 2);
         assertEquals(productRepository.findOne(PRODUCT_ID_TWO).getPrice(),
                 priceRepository.findTopByProductIdOrderByPriceTimestampDesc(PRODUCT_ID_TWO));
+    }
+
+    @Test
+    public void test_deleteProduct() {
+        final Brand brand = brandRepository.findByBrandName(BRAND_NAME_ONE);
+        Product product = new Product(PRODUCT_ID_TWO, PRODUCT_NAME_TWO, brand);
+        productRepository.save(product);
+
+        product = productRepository.findOne(PRODUCT_ID_TWO);
+        assertNotNull(product);
+
+        productRepository.delete(PRODUCT_ID_TWO);
+        product = productRepository.findOne(PRODUCT_ID_TWO);
+        assertNull(product);
     }
 }
