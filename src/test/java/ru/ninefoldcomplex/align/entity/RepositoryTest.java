@@ -41,18 +41,19 @@ public class RepositoryTest {
     final Brand brandOne = new Brand(BRAND_NAME_ONE);
 
     final String PRODUCT_NAME_ONE = "Watch";
-    final long PRODUCT_ID_ONE = 1L;
+    long PRODUCT_ID_ONE;
 
     final String PRODUCT_NAME_TWO = "Car";
-    final long PRODUCT_ID_TWO = 2L;
+    long PRODUCT_ID_TWO;
 
     @Before
     public void setUp() {
         brandRepository.save(brandOne);
 
-        Product product = new Product(PRODUCT_ID_ONE, PRODUCT_NAME_ONE, brandOne);
+        Product product = new Product(PRODUCT_NAME_ONE, brandOne);
         productRepository.save(product);
 
+        PRODUCT_ID_ONE = productRepository.findByProductNameAndBrand_BrandName(PRODUCT_NAME_ONE, BRAND_NAME_ONE).getProductId();
         Price price = new Price(product, 123);
         priceRepository.save(price);
 
@@ -101,11 +102,14 @@ public class RepositoryTest {
 
     @Test
     public void testBrandAndProductCascade() {
-        Product product = new Product(PRODUCT_ID_TWO, PRODUCT_NAME_TWO, brandOne);
+        Product product = new Product(PRODUCT_NAME_TWO, brandOne);
+        productRepository.save(product);
+
         product.setPrice(new Price(product, 555));
         product.setQuantity(new Quantity(product, 11));
         brandOne.getProducts().add(product);
         brandRepository.save(brandOne);
+        PRODUCT_ID_TWO = productRepository.findByProductNameAndBrand_BrandName(PRODUCT_NAME_TWO, BRAND_NAME_ONE).getProductId();
 
         assertNotNull(productRepository.findOne(PRODUCT_ID_TWO));
         assertEquals(priceRepository.findByProductId(PRODUCT_ID_TWO).size(), 1);
@@ -114,24 +118,28 @@ public class RepositoryTest {
 
     @Test
     public void testProductPriceChange() throws InterruptedException {
-        Product product = new Product(PRODUCT_ID_TWO, PRODUCT_NAME_TWO, brandOne);
+        Product product = new Product(PRODUCT_NAME_TWO, brandOne);
+        productRepository.save(product);
 
         product.setPrice(new Price(product, 777));
         productRepository.save(product);
+
+        PRODUCT_ID_TWO = productRepository.findByProductNameAndBrand_BrandName(PRODUCT_NAME_TWO, BRAND_NAME_ONE).getProductId();
 
         Thread.sleep(500);
         product.setPrice(new Price(product, 888));
         productRepository.save(product);
 
         assertEquals(priceRepository.findByProductId(PRODUCT_ID_TWO).size(), 2);
-        assertEquals(productRepository.findOne(PRODUCT_ID_TWO).getPrice(),
+        assertEquals(productRepository.findByProductNameAndBrand_BrandName(PRODUCT_NAME_TWO, BRAND_NAME_ONE).getPrice(),
                 priceRepository.findTopByProductIdOrderByPriceTimestampDesc(PRODUCT_ID_TWO));
     }
 
     @Test
     public void test_deleteProduct() {
-        Product product = new Product(PRODUCT_ID_TWO, PRODUCT_NAME_TWO, brandOne);
+        Product product = new Product(PRODUCT_NAME_TWO, brandOne);
         productRepository.save(product);
+        PRODUCT_ID_TWO = productRepository.findByProductNameAndBrand_BrandName(PRODUCT_NAME_TWO, BRAND_NAME_ONE).getProductId();
 
         product = productRepository.findOne(PRODUCT_ID_TWO);
         assertNotNull(product);
@@ -146,9 +154,10 @@ public class RepositoryTest {
         List<Product> products = productRepository.findByQuantity_QuantityLessThan(5);
         assertEquals(products.size(), 0);
 
-        Product product = new Product(PRODUCT_ID_TWO, PRODUCT_NAME_TWO, brandOne);
+        Product product = new Product(PRODUCT_NAME_TWO, brandOne);
         product.setQuantity(new Quantity(product, 4));
         productRepository.save(product);
+        PRODUCT_ID_TWO = productRepository.findByProductNameAndBrand_BrandName(PRODUCT_NAME_TWO, BRAND_NAME_ONE).getProductId();
 
         products = productRepository.findByQuantity_QuantityLessThan(5);
         assertEquals(products.size(), 1);

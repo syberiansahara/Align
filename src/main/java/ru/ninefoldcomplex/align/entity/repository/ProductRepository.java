@@ -12,4 +12,5 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByBrand(Brand brand);
     List<Product> findByBrand_BrandName(String brandName);
     List<Product> findByQuantity_QuantityLessThan(Integer leftoverMargin);
+    Product findByProductNameAndBrand_BrandName(String productName, String brandName);
 }

@@ -5,6 +5,7 @@ import javax.persistence.*;
 @Entity
 public class Product {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "PRODUCT_ID")
     private long productId;
     public long getProductId() {
@@ -27,8 +28,7 @@ public class Product {
         return brand;
     }
 
-    public Product(long productId, String productName, Brand brand) {
-        this.productId = productId;
+    public Product(String productName, Brand brand) {
         this.productName = productName;
         this.brand = brand;
     }
