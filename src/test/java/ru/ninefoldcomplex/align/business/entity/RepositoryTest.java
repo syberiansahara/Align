@@ -1,4 +1,4 @@
-package ru.ninefoldcomplex.align.entity;
+package ru.ninefoldcomplex.align.business.entity;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -9,11 +9,11 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.transaction.annotation.Transactional;
-import ru.ninefoldcomplex.align.config.JpaConfig;
-import ru.ninefoldcomplex.align.entity.repository.BrandRepository;
-import ru.ninefoldcomplex.align.entity.repository.PriceRepository;
-import ru.ninefoldcomplex.align.entity.repository.ProductRepository;
-import ru.ninefoldcomplex.align.entity.repository.QuantityRepository;
+import ru.ninefoldcomplex.align.business.config.JpaConfig;
+import ru.ninefoldcomplex.align.business.entity.repository.BrandRepository;
+import ru.ninefoldcomplex.align.business.entity.repository.PriceRepository;
+import ru.ninefoldcomplex.align.business.entity.repository.ProductRepository;
+import ru.ninefoldcomplex.align.business.entity.repository.QuantityRepository;
 
 import javax.annotation.Resource;
 import java.util.List;

@@ -1,4 +1,4 @@
-package ru.ninefoldcomplex.align.dao;
+package ru.ninefoldcomplex.align.business.dao;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -9,19 +9,19 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.transaction.annotation.Transactional;
-import ru.ninefoldcomplex.align.config.BeanConfig;
-import ru.ninefoldcomplex.align.config.JpaConfig;
-import ru.ninefoldcomplex.align.entity.Brand;
-import ru.ninefoldcomplex.align.entity.Price;
-import ru.ninefoldcomplex.align.entity.Product;
-import ru.ninefoldcomplex.align.entity.Quantity;
-import ru.ninefoldcomplex.align.entity.repository.BrandRepository;
-import ru.ninefoldcomplex.align.entity.repository.PriceRepository;
-import ru.ninefoldcomplex.align.entity.repository.ProductRepository;
-import ru.ninefoldcomplex.align.entity.repository.QuantityRepository;
-import ru.ninefoldcomplex.align.utils.exceptions.BrandNotFoundException;
-import ru.ninefoldcomplex.align.utils.exceptions.ProductAlreadyExistsException;
-import ru.ninefoldcomplex.align.utils.exceptions.ProductNotFoundException;
+import ru.ninefoldcomplex.align.business.config.BeanConfig;
+import ru.ninefoldcomplex.align.business.config.JpaConfig;
+import ru.ninefoldcomplex.align.business.entity.Brand;
+import ru.ninefoldcomplex.align.business.entity.Price;
+import ru.ninefoldcomplex.align.business.entity.Product;
+import ru.ninefoldcomplex.align.business.entity.Quantity;
+import ru.ninefoldcomplex.align.business.entity.repository.BrandRepository;
+import ru.ninefoldcomplex.align.business.entity.repository.PriceRepository;
+import ru.ninefoldcomplex.align.business.entity.repository.ProductRepository;
+import ru.ninefoldcomplex.align.business.entity.repository.QuantityRepository;
+import ru.ninefoldcomplex.align.business.utils.exceptions.BrandNotFoundException;
+import ru.ninefoldcomplex.align.business.utils.exceptions.ProductAlreadyExistsException;
+import ru.ninefoldcomplex.align.business.utils.exceptions.ProductNotFoundException;
 
 import javax.annotation.Resource;
 

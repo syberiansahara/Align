@@ -1,4 +1,4 @@
-package ru.ninefoldcomplex.align.config;
+package ru.ninefoldcomplex.align.business.config;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ import javax.sql.DataSource;
 import java.util.Properties;
 
 @Configuration
-@EnableJpaRepositories(basePackages = "ru.ninefoldcomplex.align.entity.repository")
+@EnableJpaRepositories(basePackages = "ru.ninefoldcomplex.align.business.entity.repository")
 @PropertySource("persistence.properties")
 @EnableTransactionManagement
 public class JpaConfig {
@@ -54,7 +54,7 @@ public class JpaConfig {
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         final LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource());
-        em.setPackagesToScan(new String[]{"ru.ninefoldcomplex.align.entity"});
+        em.setPackagesToScan(new String[]{"ru.ninefoldcomplex.align.business.entity"});
         em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         em.setJpaProperties(additionalProperties());
         return em;

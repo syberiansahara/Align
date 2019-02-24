@@ -1,4 +1,4 @@
-package ru.ninefoldcomplex.align.entity;
+package ru.ninefoldcomplex.align.business.entity;
 
 import javax.persistence.*;
 

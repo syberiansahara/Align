@@ -1,6 +1,6 @@
-package ru.ninefoldcomplex.align.dao;
+package ru.ninefoldcomplex.align.business.dao;
 
-import ru.ninefoldcomplex.align.entity.Product;
+import ru.ninefoldcomplex.align.business.entity.Product;
 
 import java.util.List;
 

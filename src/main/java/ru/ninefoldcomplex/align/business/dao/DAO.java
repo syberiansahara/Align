@@ -1,15 +1,15 @@
-package ru.ninefoldcomplex.align.dao;
+package ru.ninefoldcomplex.align.business.dao;
 
 import org.springframework.stereotype.Repository;
-import ru.ninefoldcomplex.align.entity.Brand;
-import ru.ninefoldcomplex.align.entity.Price;
-import ru.ninefoldcomplex.align.entity.Product;
-import ru.ninefoldcomplex.align.entity.Quantity;
-import ru.ninefoldcomplex.align.entity.repository.BrandRepository;
-import ru.ninefoldcomplex.align.entity.repository.ProductRepository;
-import ru.ninefoldcomplex.align.utils.exceptions.BrandNotFoundException;
-import ru.ninefoldcomplex.align.utils.exceptions.ProductAlreadyExistsException;
-import ru.ninefoldcomplex.align.utils.exceptions.ProductNotFoundException;
+import ru.ninefoldcomplex.align.business.entity.Brand;
+import ru.ninefoldcomplex.align.business.entity.Price;
+import ru.ninefoldcomplex.align.business.entity.Product;
+import ru.ninefoldcomplex.align.business.entity.Quantity;
+import ru.ninefoldcomplex.align.business.entity.repository.BrandRepository;
+import ru.ninefoldcomplex.align.business.entity.repository.ProductRepository;
+import ru.ninefoldcomplex.align.business.utils.exceptions.BrandNotFoundException;
+import ru.ninefoldcomplex.align.business.utils.exceptions.ProductAlreadyExistsException;
+import ru.ninefoldcomplex.align.business.utils.exceptions.ProductNotFoundException;
 
 import javax.annotation.Resource;
 import java.util.List;

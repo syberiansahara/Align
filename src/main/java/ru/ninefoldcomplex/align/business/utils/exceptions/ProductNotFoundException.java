@@ -1,4 +1,4 @@
-package ru.ninefoldcomplex.align.utils.exceptions;
+package ru.ninefoldcomplex.align.business.utils.exceptions;
 
 public class ProductNotFoundException extends RuntimeException {
 }
