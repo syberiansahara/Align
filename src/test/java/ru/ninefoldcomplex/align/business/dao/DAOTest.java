@@ -117,8 +117,8 @@ public class DAOTest {
     @Test
     public void test_removeProduct() {
         Long productId = dao.getProductId(PRODUCT_NAME_ONE, BRAND_NAME_ONE);
-        assertNotNull(productRepository.getOne(productId));
+        assertNotNull(productRepository.findById(productId).orElse(null));
         dao.removeProduct(productId);
-        assertNull(productRepository.getOne(productId));
+        assertNull(productRepository.findById(productId).orElse(null));
     }
 }

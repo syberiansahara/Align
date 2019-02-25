@@ -4,7 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -19,6 +18,7 @@ import ru.ninefoldcomplex.align.business.entity.repository.QuantityRepository;
 import javax.annotation.Resource;
 import java.util.List;
 
+import static junit.framework.TestCase.assertNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -64,12 +64,12 @@ public class RepositoryTest {
 
     @Test
     public void test_productName() {
-        assertEquals(PRODUCT_NAME_ONE, productRepository.getOne(PRODUCT_ID_ONE).getProductName());
+        assertEquals(PRODUCT_NAME_ONE, productRepository.findById(PRODUCT_ID_ONE).orElse(null).getProductName());
     }
 
     @Test
     public void test_productBrand() {
-        final Product product = productRepository.getOne(PRODUCT_ID_ONE);
+        final Product product = productRepository.findById(PRODUCT_ID_ONE).orElse(null);
         assertEquals(BRAND_NAME_ONE, product.getBrand().getBrandName());
     }
 
@@ -108,7 +108,7 @@ public class RepositoryTest {
         brandRepository.save(brandOne);
         PRODUCT_ID_TWO = product.getProductId();
 
-        assertNotNull(productRepository.getOne(PRODUCT_ID_TWO));
+        assertNotNull(productRepository.findById(PRODUCT_ID_TWO).orElse(null));
         assertEquals(priceRepository.findByProductId(PRODUCT_ID_TWO).size(), 1);
         assertEquals(quantityRepository.findByProductId(PRODUCT_ID_TWO).size(), 1);
     }
@@ -131,17 +131,16 @@ public class RepositoryTest {
                 priceRepository.findTopByProductIdOrderByPriceTimestampDesc(PRODUCT_ID_TWO));
     }
 
-    @Test(expected = JpaObjectRetrievalFailureException.class)
     public void test_deleteProduct() {
         Product product = new Product(PRODUCT_NAME_TWO, brandOne);
         productRepository.save(product);
         PRODUCT_ID_TWO = product.getProductId();
 
-        product = productRepository.getOne(PRODUCT_ID_TWO);
+        product = productRepository.findById(PRODUCT_ID_TWO).orElse(null);
         assertNotNull(product);
 
         productRepository.delete(product);
-        productRepository.getOne(PRODUCT_ID_TWO);
+        assertNull(productRepository.findById(PRODUCT_ID_TWO).orElse(null));
     }
 
     @Test

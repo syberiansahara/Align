@@ -33,6 +33,6 @@ public class Brand {
         return products;
     }
 
-    private Brand() {
+    Brand() {
     }
 }

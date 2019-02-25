@@ -12,7 +12,6 @@ import ru.ninefoldcomplex.align.business.utils.exceptions.ProductAlreadyExistsEx
 import ru.ninefoldcomplex.align.business.utils.exceptions.ProductNotFoundException;
 
 import javax.annotation.Resource;
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @Repository
@@ -47,6 +46,7 @@ public class DAO implements IDAO {
     @Override
     public Product updateProduct(Long productId, Integer quantity, Integer price) {
         final Product productById = getProductById(productId);
+        if (productById == null) throw new ProductNotFoundException();
         return updateProduct(productById, quantity, price);
     }
 
@@ -58,15 +58,13 @@ public class DAO implements IDAO {
     }
 
     private Product getProductById(Long productId) {
-        try {
-            return productRepository.getOne(productId);
-        } catch (EntityNotFoundException e) {
-            throw new ProductNotFoundException();
-        }
+        return productRepository.findById(productId).orElse(null);
     }
 
     @Override
     public void removeProduct(Long productId) {
-        productRepository.delete(getProductById(productId));
+        final Product productById = getProductById(productId);
+        if (productById == null) throw new ProductNotFoundException();
+        productRepository.delete(productById);
     }
 }

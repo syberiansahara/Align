@@ -43,7 +43,7 @@ public class Quantity {
         this.quantity = quantity;
     }
 
-    private Quantity() {
+    Quantity() {
         this.quantityTimestamp = LocalDateTime.now();
     }
 }

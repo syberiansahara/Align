@@ -54,6 +54,6 @@ public class Product {
         this.price = price;
     }
 
-    private Product() {
+    Product() {
     }
 }
