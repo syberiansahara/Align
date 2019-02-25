@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -17,7 +16,6 @@ import javax.sql.DataSource;
 import java.util.Properties;
 
 @Configuration
-@EnableJpaRepositories(basePackages = "ru.ninefoldcomplex.align.business.entity.repository")
 @PropertySource("persistence.properties")
 @EnableTransactionManagement
 public class JpaConfig {
@@ -35,17 +33,6 @@ public class JpaConfig {
 
         return dataSource;
     }
-
-//    @Bean
-//    public HibernateTemplate hibernateTemplate() {
-//        return new HibernateTemplate(sessionFactory());
-//    }
-//
-//    @Bean
-//    public SessionFactory sessionFactory() {
-//        return new LocalSessionFactoryBuilder(dataSource())
-//                .buildSessionFactory();
-//    }
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
