@@ -45,7 +45,7 @@ public class DAO implements IDAO {
 
     @Override
     public Product updateProduct(Long productId, Integer quantity, Integer price) {
-        final Product product = productRepository.findOne(productId);
+        final Product product = productRepository.getOne(productId);
         if (product == null) throw new ProductNotFoundException();
         return updateProduct(product, quantity, price);
     }
@@ -59,8 +59,8 @@ public class DAO implements IDAO {
 
     @Override
     public void removeProduct(Long productId) {
-        final Product product = productRepository.findOne(productId);
+        final Product product = productRepository.getOne(productId);
         if (product == null) throw new ProductNotFoundException();
-        productRepository.delete(productId);
+        productRepository.delete(product);
     }
 }

@@ -64,12 +64,12 @@ public class RepositoryTest {
 
     @Test
     public void test_productName() {
-        assertEquals(PRODUCT_NAME_ONE, productRepository.findOne(PRODUCT_ID_ONE).getProductName());
+        assertEquals(PRODUCT_NAME_ONE, productRepository.getOne(PRODUCT_ID_ONE).getProductName());
     }
 
     @Test
     public void test_productBrand() {
-        final Product product = productRepository.findOne(PRODUCT_ID_ONE);
+        final Product product = productRepository.getOne(PRODUCT_ID_ONE);
         assertEquals(BRAND_NAME_ONE, product.getBrand().getBrandName());
     }
 
@@ -108,7 +108,7 @@ public class RepositoryTest {
         brandRepository.save(brandOne);
         PRODUCT_ID_TWO = product.getProductId();
 
-        assertNotNull(productRepository.findOne(PRODUCT_ID_TWO));
+        assertNotNull(productRepository.getOne(PRODUCT_ID_TWO));
         assertEquals(priceRepository.findByProductId(PRODUCT_ID_TWO).size(), 1);
         assertEquals(quantityRepository.findByProductId(PRODUCT_ID_TWO).size(), 1);
     }
@@ -137,11 +137,11 @@ public class RepositoryTest {
         productRepository.save(product);
         PRODUCT_ID_TWO = product.getProductId();
 
-        product = productRepository.findOne(PRODUCT_ID_TWO);
+        product = productRepository.getOne(PRODUCT_ID_TWO);
         assertNotNull(product);
 
-        productRepository.delete(PRODUCT_ID_TWO);
-        product = productRepository.findOne(PRODUCT_ID_TWO);
+        productRepository.delete(product);
+        product = productRepository.getOne(PRODUCT_ID_TWO);
         assertNull(product);
     }
 
