@@ -1,18 +1,19 @@
-package ru.ninefoldcomplex.align.entity;
+package ru.ninefoldcomplex.align.business.entity;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.transaction.annotation.Transactional;
-import ru.ninefoldcomplex.align.config.JpaConfig;
-import ru.ninefoldcomplex.align.entity.repository.BrandRepository;
-import ru.ninefoldcomplex.align.entity.repository.PriceRepository;
-import ru.ninefoldcomplex.align.entity.repository.ProductRepository;
-import ru.ninefoldcomplex.align.entity.repository.QuantityRepository;
+import ru.ninefoldcomplex.align.business.config.JpaConfig;
+import ru.ninefoldcomplex.align.business.entity.repository.BrandRepository;
+import ru.ninefoldcomplex.align.business.entity.repository.PriceRepository;
+import ru.ninefoldcomplex.align.business.entity.repository.ProductRepository;
+import ru.ninefoldcomplex.align.business.entity.repository.QuantityRepository;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -52,27 +53,23 @@ public class RepositoryTest {
 
         Product product = new Product(PRODUCT_NAME_ONE, brandOne);
         productRepository.save(product);
-
         PRODUCT_ID_ONE = productRepository.findByProductNameAndBrand_BrandName(PRODUCT_NAME_ONE, BRAND_NAME_ONE).getProductId();
+
         Price price = new Price(product, 123);
         priceRepository.save(price);
 
         Quantity quantity = new Quantity(product, 55);
         quantityRepository.save(quantity);
-
-        product.setPrice(price);
-        product.setQuantity(quantity);
-        productRepository.save(product);
     }
 
     @Test
     public void test_productName() {
-        assertEquals(PRODUCT_NAME_ONE, productRepository.findOne(PRODUCT_ID_ONE).getProductName());
+        assertEquals(PRODUCT_NAME_ONE, productRepository.findById(PRODUCT_ID_ONE).orElse(null).getProductName());
     }
 
     @Test
     public void test_productBrand() {
-        final Product product = productRepository.findOne(PRODUCT_ID_ONE);
+        final Product product = productRepository.findById(PRODUCT_ID_ONE).orElse(null);
         assertEquals(BRAND_NAME_ONE, product.getBrand().getBrandName());
     }
 
@@ -101,7 +98,7 @@ public class RepositoryTest {
     }
 
     @Test
-    public void testBrandAndProductCascade() {
+    public void test_BrandAndProductCascade() {
         Product product = new Product(PRODUCT_NAME_TWO, brandOne);
         productRepository.save(product);
 
@@ -109,22 +106,21 @@ public class RepositoryTest {
         product.setQuantity(new Quantity(product, 11));
         brandOne.getProducts().add(product);
         brandRepository.save(brandOne);
-        PRODUCT_ID_TWO = productRepository.findByProductNameAndBrand_BrandName(PRODUCT_NAME_TWO, BRAND_NAME_ONE).getProductId();
+        PRODUCT_ID_TWO = product.getProductId();
 
-        assertNotNull(productRepository.findOne(PRODUCT_ID_TWO));
+        assertNotNull(productRepository.findById(PRODUCT_ID_TWO).orElse(null));
         assertEquals(priceRepository.findByProductId(PRODUCT_ID_TWO).size(), 1);
         assertEquals(quantityRepository.findByProductId(PRODUCT_ID_TWO).size(), 1);
     }
 
     @Test
-    public void testProductPriceChange() throws InterruptedException {
+    public void test_ProductPriceChange() throws InterruptedException {
         Product product = new Product(PRODUCT_NAME_TWO, brandOne);
         productRepository.save(product);
+        PRODUCT_ID_TWO = product.getProductId();
 
         product.setPrice(new Price(product, 777));
         productRepository.save(product);
-
-        PRODUCT_ID_TWO = productRepository.findByProductNameAndBrand_BrandName(PRODUCT_NAME_TWO, BRAND_NAME_ONE).getProductId();
 
         Thread.sleep(500);
         product.setPrice(new Price(product, 888));
@@ -135,18 +131,16 @@ public class RepositoryTest {
                 priceRepository.findTopByProductIdOrderByPriceTimestampDesc(PRODUCT_ID_TWO));
     }
 
-    @Test
     public void test_deleteProduct() {
         Product product = new Product(PRODUCT_NAME_TWO, brandOne);
         productRepository.save(product);
-        PRODUCT_ID_TWO = productRepository.findByProductNameAndBrand_BrandName(PRODUCT_NAME_TWO, BRAND_NAME_ONE).getProductId();
+        PRODUCT_ID_TWO = product.getProductId();
 
-        product = productRepository.findOne(PRODUCT_ID_TWO);
+        product = productRepository.findById(PRODUCT_ID_TWO).orElse(null);
         assertNotNull(product);
 
-        productRepository.delete(PRODUCT_ID_TWO);
-        product = productRepository.findOne(PRODUCT_ID_TWO);
-        assertNull(product);
+        productRepository.delete(product);
+        assertNull(productRepository.findById(PRODUCT_ID_TWO).orElse(null));
     }
 
     @Test
@@ -157,9 +151,15 @@ public class RepositoryTest {
         Product product = new Product(PRODUCT_NAME_TWO, brandOne);
         product.setQuantity(new Quantity(product, 4));
         productRepository.save(product);
-        PRODUCT_ID_TWO = productRepository.findByProductNameAndBrand_BrandName(PRODUCT_NAME_TWO, BRAND_NAME_ONE).getProductId();
 
         products = productRepository.findByQuantity_QuantityLessThan(5);
         assertEquals(products.size(), 1);
+    }
+
+    @Test(expected = DataIntegrityViolationException.class)
+    public void test_uniqueConstraint() {
+        Product product = new Product(PRODUCT_NAME_ONE, brandOne);
+        productRepository.save(product);
+        productRepository.findAll();
     }
 }

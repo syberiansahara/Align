@@ -1,4 +1,4 @@
-package ru.ninefoldcomplex.align.entity;
+package ru.ninefoldcomplex.align.business.entity;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -33,6 +33,6 @@ public class Brand {
         return products;
     }
 
-    private Brand() {
+    Brand() {
     }
 }

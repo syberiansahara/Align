@@ -1,8 +1,8 @@
-package ru.ninefoldcomplex.align.entity.repository;
+package ru.ninefoldcomplex.align.business.entity.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import ru.ninefoldcomplex.align.entity.Brand;
-import ru.ninefoldcomplex.align.entity.Product;
+import ru.ninefoldcomplex.align.business.entity.Brand;
+import ru.ninefoldcomplex.align.business.entity.Product;
 
 import java.util.List;
 
