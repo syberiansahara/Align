@@ -1,5 +1,6 @@
 package ru.ninefoldcomplex.align.business.dao;
 
+import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
 import org.springframework.stereotype.Repository;
 import ru.ninefoldcomplex.align.business.entity.Brand;
 import ru.ninefoldcomplex.align.business.entity.Price;
@@ -12,6 +13,7 @@ import ru.ninefoldcomplex.align.business.utils.exceptions.ProductAlreadyExistsEx
 import ru.ninefoldcomplex.align.business.utils.exceptions.ProductNotFoundException;
 
 import javax.annotation.Resource;
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @Repository
@@ -45,9 +47,8 @@ public class DAO implements IDAO {
 
     @Override
     public Product updateProduct(Long productId, Integer quantity, Integer price) {
-        final Product product = productRepository.getOne(productId);
-        if (product == null) throw new ProductNotFoundException();
-        return updateProduct(product, quantity, price);
+        final Product productById = getProductById(productId);
+        return updateProduct(productById, quantity, price);
     }
 
     private Product updateProduct(Product product, Integer quantity, Integer price) {
@@ -57,10 +58,16 @@ public class DAO implements IDAO {
         return product;
     }
 
+    private Product getProductById(Long productId) {
+        try {
+            return productRepository.getOne(productId);
+        } catch (EntityNotFoundException e) {
+            throw new ProductNotFoundException();
+        }
+    }
+
     @Override
     public void removeProduct(Long productId) {
-        final Product product = productRepository.getOne(productId);
-        if (product == null) throw new ProductNotFoundException();
-        productRepository.delete(product);
+        productRepository.delete(getProductById(productId));
     }
 }

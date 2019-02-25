@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -16,9 +17,9 @@ import ru.ninefoldcomplex.align.business.entity.repository.ProductRepository;
 import ru.ninefoldcomplex.align.business.entity.repository.QuantityRepository;
 
 import javax.annotation.Resource;
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
-import static junit.framework.TestCase.assertNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -131,7 +132,7 @@ public class RepositoryTest {
                 priceRepository.findTopByProductIdOrderByPriceTimestampDesc(PRODUCT_ID_TWO));
     }
 
-    @Test
+    @Test(expected = JpaObjectRetrievalFailureException.class)
     public void test_deleteProduct() {
         Product product = new Product(PRODUCT_NAME_TWO, brandOne);
         productRepository.save(product);
@@ -141,8 +142,7 @@ public class RepositoryTest {
         assertNotNull(product);
 
         productRepository.delete(product);
-        product = productRepository.getOne(PRODUCT_ID_TWO);
-        assertNull(product);
+        productRepository.getOne(PRODUCT_ID_TWO);
     }
 
     @Test
