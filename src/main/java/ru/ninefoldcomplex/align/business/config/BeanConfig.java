@@ -9,15 +9,14 @@ import ru.ninefoldcomplex.align.business.service.IService;
 import ru.ninefoldcomplex.align.business.service.ProductService;
 
 @Configuration
-@EnableJpaRepositories(basePackages = "ru.ninefoldcomplex.align.business.entity.repository")
 public class BeanConfig {
-    @Bean
-    public IDAO iDao() {
-        return new DAO();
-    }
-
-    @Bean
-    public IService iService() {
-        return new ProductService();
-    }
+//    @Bean
+//    public IDAO iDao() {
+//        return new DAO();
+//    }
+//
+//    @Bean
+//    public IService iService() {
+//        return new ProductService();
+//    }
 }

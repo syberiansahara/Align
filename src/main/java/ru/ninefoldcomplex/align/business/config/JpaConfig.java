@@ -39,16 +39,16 @@ public class JpaConfig {
         return dataSource;
     }
 
-    @Bean
-    public HibernateTemplate hibernateTemplate() {
-        return new HibernateTemplate(sessionFactory());
-    }
-
-    @Bean
-    public SessionFactory sessionFactory() {
-        return new LocalSessionFactoryBuilder(dataSource())
-                .buildSessionFactory();
-    }
+//    @Bean
+//    public HibernateTemplate hibernateTemplate() {
+//        return new HibernateTemplate(sessionFactory());
+//    }
+//
+//    @Bean
+//    public SessionFactory sessionFactory() {
+//        return new LocalSessionFactoryBuilder(dataSource())
+//                .buildSessionFactory();
+//    }
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
