@@ -17,7 +17,6 @@ import ru.ninefoldcomplex.align.business.entity.repository.ProductRepository;
 import ru.ninefoldcomplex.align.business.entity.repository.QuantityRepository;
 
 import javax.annotation.Resource;
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;

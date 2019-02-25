@@ -1,6 +1,5 @@
 package ru.ninefoldcomplex.align.business.dao;
 
-import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
 import org.springframework.stereotype.Repository;
 import ru.ninefoldcomplex.align.business.entity.Brand;
 import ru.ninefoldcomplex.align.business.entity.Price;
