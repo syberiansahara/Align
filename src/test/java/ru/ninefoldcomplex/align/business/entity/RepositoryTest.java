@@ -9,6 +9,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.transaction.annotation.Transactional;
+import ru.ninefoldcomplex.align.business.config.BeanConfig;
 import ru.ninefoldcomplex.align.business.config.JpaConfig;
 import ru.ninefoldcomplex.align.business.entity.repository.BrandRepository;
 import ru.ninefoldcomplex.align.business.entity.repository.PriceRepository;
@@ -24,7 +25,8 @@ import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(
-        classes = {JpaConfig.class},
+        classes = {JpaConfig.class,
+                BeanConfig.class},
         loader = AnnotationConfigContextLoader.class)
 @Transactional
 @DirtiesContext
