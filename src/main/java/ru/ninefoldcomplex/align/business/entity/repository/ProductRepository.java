@@ -5,6 +5,7 @@ import ru.ninefoldcomplex.align.business.entity.Brand;
 import ru.ninefoldcomplex.align.business.entity.Product;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByProductName(String productName);
@@ -12,5 +13,5 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByBrand(Brand brand);
     List<Product> findByBrand_BrandName(String brandName);
     List<Product> findByQuantity_QuantityLessThan(Integer leftoverMargin);
-    Product findByProductNameAndBrand_BrandName(String productName, String brandName);
+    Optional<Product> findByProductNameAndBrand_BrandName(String productName, String brandName);
 }

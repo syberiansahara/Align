@@ -11,11 +11,13 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.transaction.annotation.Transactional;
 import ru.ninefoldcomplex.align.business.config.BeanConfig;
 import ru.ninefoldcomplex.align.business.config.JpaConfig;
-import ru.ninefoldcomplex.align.business.dao.IDAO;
 import ru.ninefoldcomplex.align.business.entity.Brand;
+import ru.ninefoldcomplex.align.business.entity.Price;
 import ru.ninefoldcomplex.align.business.entity.Product;
+import ru.ninefoldcomplex.align.business.entity.Quantity;
 import ru.ninefoldcomplex.align.business.entity.repository.BrandRepository;
 import ru.ninefoldcomplex.align.business.entity.repository.PriceRepository;
+import ru.ninefoldcomplex.align.business.entity.repository.ProductRepository;
 import ru.ninefoldcomplex.align.business.entity.repository.QuantityRepository;
 import ru.ninefoldcomplex.align.business.utils.exceptions.BrandNotFoundException;
 import ru.ninefoldcomplex.align.business.utils.exceptions.ProductAlreadyExistsException;
@@ -38,14 +40,13 @@ import static org.junit.Assert.*;
 @DirtiesContext
 public class ProductServiceTest {
     @Resource
+    private ProductRepository productRepository;
+    @Resource
     private BrandRepository brandRepository;
     @Resource
     private PriceRepository priceRepository;
     @Resource
     private QuantityRepository quantityRepository;
-
-    @Autowired
-    private IDAO dao;
 
     @Autowired
     private IService productService;
@@ -57,9 +58,12 @@ public class ProductServiceTest {
     final String PRODUCT_NAME_TWO = "Monitor";
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         brandRepository.save(brandOne);
-        dao.addProduct(PRODUCT_NAME_ONE, BRAND_NAME_ONE, 3, 199);
+        Product product = new Product(PRODUCT_NAME_ONE, brandOne);
+        product.setQuantity(new Quantity(product, 3));
+        product.setPrice(new Price(product, 199));
+        productRepository.save(product);
     }
 
     @Test
@@ -99,6 +103,8 @@ public class ProductServiceTest {
     @Test
     public void test_updateProduct() {
         Long productId = productService.getProductId(PRODUCT_NAME_ONE, BRAND_NAME_ONE);
+        assertEquals(quantityRepository.findByProductId(productId).size(), 1);
+        assertEquals(priceRepository.findByProductId(productId).size(), 1);
         productService.updateProduct(productId, 77, null);
         assertEquals(quantityRepository.findByProductId(productId).size(), 2);
         assertEquals(priceRepository.findByProductId(productId).size(), 1);
