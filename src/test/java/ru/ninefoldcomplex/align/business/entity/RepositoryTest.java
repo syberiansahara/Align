@@ -19,10 +19,7 @@ import ru.ninefoldcomplex.align.business.entity.repository.QuantityRepository;
 import javax.annotation.Resource;
 import java.util.List;
 
-import static junit.framework.TestCase.assertNull;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(
@@ -148,7 +145,7 @@ public class RepositoryTest {
 
         assertEquals(priceRepository.findByProductId(productIdTwo).size(), 2);
         assertEquals(productRepository.findByProductNameAndBrand_BrandName(PRODUCT_NAME_TWO, BRAND_NAME_ONE).get().getPrice(),
-                priceRepository.findTopByProductIdOrderByPriceTimestampDesc(productIdTwo));
+                priceRepository.findTopByProductIdOrderByPriceTimestampDesc(productIdTwo).get());
     }
 
     public void test_deleteProduct() {
@@ -156,11 +153,10 @@ public class RepositoryTest {
         productRepository.save(product);
         productIdTwo = product.getProductId();
 
-        product = productRepository.findById(productIdTwo).orElse(null);
-        assertNotNull(product);
+        assertTrue(productRepository.findById(productIdTwo).isPresent());
 
         productRepository.delete(product);
-        assertNull(productRepository.findById(productIdTwo).orElse(null));
+        assertFalse(productRepository.findById(productIdTwo).isPresent());
     }
 
     @Test
