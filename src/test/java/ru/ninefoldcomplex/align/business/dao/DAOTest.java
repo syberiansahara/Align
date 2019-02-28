@@ -61,14 +61,7 @@ public class DAOTest {
 //        priceRepository.save(new Price(product, 123));
 //        quantityRepository.save(new Quantity(product, 55));
 //    }
-//
-//    @Test
-//    public void test_getLeftovers() {
-//        assertEquals(dao.getLeftovers().size(), 0);
-//        dao.addProduct("Wow", BRAND_NAME_ONE, 4, 88);
-//        assertEquals(dao.getLeftovers().size(), 1);
-//    }
-//
+
 //    @Test
 //    public void test_getProductId() {
 //        assertNotNull(dao.getProductId(PRODUCT_NAME_ONE, BRAND_NAME_ONE));

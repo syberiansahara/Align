@@ -51,23 +51,25 @@ public class ProductServiceTest {
     @Autowired
     private IService productService;
 
-    final String BRAND_NAME_ONE = "ninefold";
-    final Brand brandOne = new Brand(BRAND_NAME_ONE);
+    private final String BRAND_NAME_ONE = "ninefold";
+    private final Brand brandOne = new Brand(BRAND_NAME_ONE);
 
-    final String PRODUCT_NAME_ONE = "Watch";
-    final String PRODUCT_NAME_TWO = "Monitor";
+    private final String PRODUCT_NAME_ONE = "Watch";
+    private final String PRODUCT_NAME_TWO = "Monitor";
 
     @Before
     public void setUp() {
         brandRepository.save(brandOne);
         Product product = new Product(PRODUCT_NAME_ONE, brandOne);
-        product.setQuantity(new Quantity(product, 3));
-        product.setPrice(new Price(product, 199));
         productRepository.save(product);
+        product.setQuantity(new Quantity(product, 7));
+        product.setPrice(new Price(product, 199));
     }
 
     @Test
     public void test_getLeftovers() {
+        assertEquals(productService.getLeftovers().size(), 0);
+        productService.addProduct("Wow", BRAND_NAME_ONE, 4, 88);
         assertEquals(productService.getLeftovers().size(), 1);
     }
 
