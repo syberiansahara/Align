@@ -56,7 +56,6 @@ public class ProductService implements IService {
     private Product updateProduct(Product product, Integer quantity, Integer price) {
         if (quantity != null) product.setQuantity(new Quantity(product, quantity));
         if (price != null) product.setPrice(new Price(product, price));
-        productRepository.save(product);
         return product;
     }
 
